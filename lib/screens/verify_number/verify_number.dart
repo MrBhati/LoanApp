@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:loneapp/componets/custom_dilog.dart';
 import 'package:loneapp/res/colors_constant.dart';
+import 'package:loneapp/screens/login/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class VerifyNumber extends StatefulWidget {
@@ -13,19 +17,184 @@ class _VerifyNumberState extends State<VerifyNumber> {
   final _verifyotpFormKey = GlobalKey<FormState>();
 
   bool _isloading = false;
+  final interval = const Duration(seconds: 1);
+  TextEditingController? oneController;
+  TextEditingController? twoController;
+  TextEditingController? threeController;
+  TextEditingController? fourController;
+  final int timerMaxSeconds = 60;
+
+  int currentSeconds = 0;
+
+  String get timerText =>
+      '${((timerMaxSeconds - currentSeconds) ~/ 60).toString().padLeft(2, '0')}: ${((timerMaxSeconds - currentSeconds) % 60).toString().padLeft(2, '0')}';
+  updateOTP() async {
+    print("Update OTP CAll");
+    setState(() {
+      _isloading = true;
+      oneController!.text = "8";
+      twoController!.text = "3";
+      threeController!.text = "4";
+      fourController!.text = "5";
+    });
+    await Future.delayed(const Duration(seconds: 2), () {
+      print("Sending to home page");
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Login(),
+        ),
+      );
+    });
+  }
+
+  startTimeout([int? milliseconds]) {
+    var duration = interval;
+    Timer.periodic(duration, (timer) {
+      setState(() {
+        print(timer.tick);
+
+        currentSeconds = timer.tick;
+        if (timer.tick <= 10) {
+          timer.cancel();
+          // Dialog(
+          //   shape: RoundedRectangleBorder(
+          //     borderRadius: BorderRadius.circular(20),
+          //   ),
+          //   elevation: 0,
+          //   backgroundColor: Colors.transparent,
+          //   child: contentBox(context),
+          // );
+          showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (BuildContext context) {
+                return Dialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  child: contentBox(context),
+                );
+                // return CustomDialogBox(
+                //   title: "Instant Fast Loan OTP",
+                //   descriptions: "Your one time password (OTP) is:",
+                //   otp: "9059",
+                //   text: "Yes",
+                //   setOtp: updateOTP(),
+                // );
+              });
+        }
+      });
+    });
+  }
+
+  // startTime(BuildContext context) async {
+  //   print("Timer start runing");
+
+  //   var _duration = new Duration(seconds: 2);
+  //   return new Timer(_duration, navigationPage);
+  // }
+
+  // void navigationPage() {
+  //   setState(() {
+  //     currentSeconds = 60;
+  //   });
+
+  // }
 
   @override
   void initState() {
+    startTimeout();
     // TODO: implement initState
     super.initState();
-    TextEditingController oneController = TextEditingController();
-    TextEditingController twoController = TextEditingController();
-    TextEditingController threeController = TextEditingController();
-    TextEditingController fourController = TextEditingController();
+    oneController = TextEditingController();
+    twoController = TextEditingController();
+    threeController = TextEditingController();
+    fourController = TextEditingController();
+  }
+
+  contentBox(context) {
+    return Stack(
+      children: <Widget>[
+        Container(
+          padding:
+              EdgeInsets.only(left: 20, top: 45 + 20, right: 20, bottom: 20),
+          margin: EdgeInsets.only(top: 45),
+          decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black26,
+                    offset: Offset(0, 10),
+                    blurRadius: 10),
+              ]),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                "Instant Fast Loan OTP",
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Text(
+                "Your one time password (OTP) is:",
+                style: TextStyle(fontSize: 14),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Text(
+                "8345",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(
+                height: 22,
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: FlatButton(
+                    color: AppColors.primery_color,
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      updateOTP();
+                    },
+                    child: Text(
+                      "GET",
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    )),
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+          left: 20,
+          right: 20,
+          child: CircleAvatar(
+            backgroundColor: Colors.transparent,
+            radius: 45,
+            child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(45)),
+                child: Image.asset("assets/images/logo.jpeg")),
+          ),
+        ),
+      ],
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    // startTime(context);
     return Scaffold(
       body: SafeArea(
         child: Form(
@@ -84,7 +253,7 @@ class _VerifyNumberState extends State<VerifyNumber> {
                               width: MediaQuery.of(context).size.width / 7,
                               child: TextFormField(
                                 keyboardType: TextInputType.number,
-                                //controller: oneController,
+                                controller: oneController,
                                 onChanged: (value) {
                                   FocusScope.of(context).nextFocus();
                                 },
@@ -119,7 +288,7 @@ class _VerifyNumberState extends State<VerifyNumber> {
                               width: MediaQuery.of(context).size.width / 7,
                               child: TextFormField(
                                 keyboardType: TextInputType.number,
-                                //controller: _twoController,
+                                controller: twoController,
                                 onChanged: (value) {
                                   FocusScope.of(context).nextFocus();
                                 },
@@ -154,7 +323,7 @@ class _VerifyNumberState extends State<VerifyNumber> {
                               width: MediaQuery.of(context).size.width / 7,
                               child: TextFormField(
                                 keyboardType: TextInputType.number,
-                                //controller: _threeController,
+                                controller: threeController,
                                 onChanged: (value) {
                                   FocusScope.of(context).nextFocus();
                                 },
@@ -189,7 +358,7 @@ class _VerifyNumberState extends State<VerifyNumber> {
                               width: MediaQuery.of(context).size.width / 7,
                               child: TextFormField(
                                 keyboardType: TextInputType.number,
-                                //controller: _fourController,
+                                controller: fourController,
                                 onChanged: (value) {
                                   FocusScope.of(context).nextFocus();
                                 },
@@ -225,7 +394,7 @@ class _VerifyNumberState extends State<VerifyNumber> {
                 ),
                 SizedBox(height: 15),
                 Center(
-                    child: Text('00:20',
+                    child: Text(timerText,
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w600,
@@ -251,7 +420,7 @@ class _VerifyNumberState extends State<VerifyNumber> {
                       child: Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: Text(
-                          _isloading == false ? "Verify" : "Loading...",
+                          _isloading == false ? "Verify" : "Verifying...",
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 20,
