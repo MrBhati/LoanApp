@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:loneapp/componets/custom_dilog.dart';
 import 'package:loneapp/res/colors_constant.dart';
+import 'package:loneapp/screens/Home/home.dart';
 import 'package:loneapp/screens/login/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -42,7 +43,7 @@ class _VerifyNumberState extends State<VerifyNumber> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => Login(),
+          builder: (context) => Home(),
         ),
       );
     });
