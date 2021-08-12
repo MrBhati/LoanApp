@@ -164,7 +164,23 @@ class _HomeState extends State<Home> {
                 ),
               ],
             ),
-          )
+          ),
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+            padding: EdgeInsets.all(25),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(color: Colors.green, spreadRadius: 1),
+              ],
+            ),
+            child: Image.asset(
+              'assets/images/step.png',
+              height: 200,
+            ),
+          ),
         ],
       )),
     );
