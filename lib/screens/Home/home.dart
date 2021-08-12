@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loneapp/componets/custom_app_bar.dart';
 import 'package:loneapp/res/colors_constant.dart';
+import 'package:loneapp/screens/kyc_screens/basic_detaild.dart';
 
 class Home extends StatefulWidget {
   Home({Key? key}) : super(key: key);
@@ -51,29 +52,39 @@ class _HomeState extends State<Home> {
           ),
         ),
         padding: const EdgeInsets.fromLTRB(50, 20, 50, 10),
-        child: Container(
-          height: 40,
-          decoration: BoxDecoration(
-              color: AppColors.primery_color,
-              borderRadius: BorderRadius.all(Radius.circular(6))),
-          alignment: Alignment.center,
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  " GO TO ADD KYC ",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600),
-                ),
-                Icon(
-                  Icons.arrow_right_outlined,
-                  size: 18,
-                )
-              ],
+        child: GestureDetector(
+          onTap: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BasicDetails(),
+              ),
+            );
+          },
+          child: Container(
+            height: 40,
+            decoration: BoxDecoration(
+                color: AppColors.primery_color,
+                borderRadius: BorderRadius.all(Radius.circular(6))),
+            alignment: Alignment.center,
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    " GO TO ADD KYC ",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  Icon(
+                    Icons.arrow_right_outlined,
+                    size: 18,
+                  )
+                ],
+              ),
             ),
           ),
         ),
