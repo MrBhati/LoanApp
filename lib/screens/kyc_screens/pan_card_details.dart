@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:loneapp/res/colors_constant.dart';
 import 'package:loneapp/screens/kyc_screens/pan_card_details.dart';
 import 'package:loneapp/screens/verify_number/verify_number.dart';
@@ -12,10 +13,54 @@ class PanCard extends StatefulWidget {
 
 class _PanCardState extends State<PanCard> {
   String? _genderRadioBtnVal;
-  void _handleGenderChange(String? value) {
-    setState(() {
-      _genderRadioBtnVal = value;
-    });
+  XFile? _imagePan;
+  final ImagePicker _picker = ImagePicker();
+
+  selectImage(source, quality) async {
+    try {
+      final pickedFile = await _picker.pickImage(
+        source: source,
+        imageQuality: quality,
+      );
+
+      setState(() {
+        _imagePan = pickedFile;
+      });
+    } catch (e) {
+      setState(() {
+        print("Error Wile get iamge");
+      });
+    }
+  }
+
+  void _showPicker(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: new Wrap(
+                children: <Widget>[
+                  new ListTile(
+                      leading: new Icon(Icons.photo_library),
+                      title: new Text('Photo Gallery'),
+                      onTap: () {
+                        selectImage(ImageSource.gallery, 50);
+                        Navigator.of(context).pop();
+                      }),
+                  new ListTile(
+                    leading: new Icon(Icons.photo_camera),
+                    title: new Text('Camera'),
+                    onTap: () {
+                      selectImage(ImageSource.camera, 50);
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 
   @override
@@ -167,7 +212,9 @@ class _PanCardState extends State<PanCard> {
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: Text(
-                            "Uploade Pan Card",
+                            _imagePan == null
+                                ? "Uploade Pan Card"
+                                : _imagePan?.name ?? "Pan_Card.png",
                             style: TextStyle(
                               fontSize: 16,
                               color: AppColors.primery_color,
@@ -175,16 +222,21 @@ class _PanCardState extends State<PanCard> {
                             ),
                           ),
                         ),
-                        Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                              color: AppColors.primery_color,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(6))),
-                          child: Icon(
-                            Icons.add,
-                            color: Colors.white,
+                        GestureDetector(
+                          onTap: () {
+                            _showPicker(context);
+                          },
+                          child: Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                                color: AppColors.primery_color,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(6))),
+                            child: Icon(
+                              Icons.add,
+                              color: Colors.white,
+                            ),
                           ),
                         )
                       ],

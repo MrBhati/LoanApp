@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:loneapp/res/colors_constant.dart';
 import 'package:loneapp/screens/kyc_screens/aadhar_card_details.dart';
 import 'package:loneapp/screens/verify_number/verify_number.dart';
@@ -11,11 +12,23 @@ class FaceIdentity extends StatefulWidget {
 }
 
 class _FaceIdentityState extends State<FaceIdentity> {
-  String? _genderRadioBtnVal;
-  void _handleGenderChange(String? value) {
-    setState(() {
-      _genderRadioBtnVal = value;
-    });
+  XFile? _imageFace;
+  final ImagePicker _picker = ImagePicker();
+  selectImage() async {
+    try {
+      final pickedFile = await _picker.pickImage(
+        source: ImageSource.camera,
+        imageQuality: 50,
+      );
+
+      setState(() {
+        _imageFace = pickedFile;
+      });
+    } catch (e) {
+      setState(() {
+        print("Error Wile get iamge");
+      });
+    }
   }
 
   @override
@@ -154,7 +167,9 @@ class _FaceIdentityState extends State<FaceIdentity> {
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: Text(
-                            "Uploade Face Image",
+                            _imageFace == null
+                                ? "Uploade Face Image"
+                                : "face_image.png",
                             style: TextStyle(
                               fontSize: 16,
                               color: AppColors.primery_color,
@@ -162,16 +177,21 @@ class _FaceIdentityState extends State<FaceIdentity> {
                             ),
                           ),
                         ),
-                        Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                              color: AppColors.primery_color,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(6))),
-                          child: Icon(
-                            Icons.add,
-                            color: Colors.white,
+                        GestureDetector(
+                          onTap: () {
+                            selectImage();
+                          },
+                          child: Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                                color: AppColors.primery_color,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(6))),
+                            child: Icon(
+                              Icons.add,
+                              color: Colors.white,
+                            ),
                           ),
                         )
                       ],

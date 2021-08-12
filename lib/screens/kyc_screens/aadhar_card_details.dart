@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:loneapp/res/colors_constant.dart';
 import 'package:loneapp/screens/kyc_screens/pan_card_details.dart';
 import 'package:loneapp/screens/verify_number/verify_number.dart';
@@ -11,11 +14,59 @@ class AadharCard extends StatefulWidget {
 }
 
 class _AadharCardState extends State<AadharCard> {
-  String? _genderRadioBtnVal;
-  void _handleGenderChange(String? value) {
-    setState(() {
-      _genderRadioBtnVal = value;
-    });
+  XFile? _imageBack, _imageFront;
+  final ImagePicker _picker = ImagePicker();
+
+  selectImage(source, quality, type) async {
+    try {
+      final pickedFile = await _picker.pickImage(
+        source: source,
+        imageQuality: quality,
+      );
+      if (type == "Back") {
+        setState(() {
+          _imageBack = pickedFile;
+        });
+      } else {
+        setState(() {
+          _imageFront = pickedFile;
+        });
+      }
+    } catch (e) {
+      setState(() {
+        print("Error Wile get iamge");
+      });
+    }
+  }
+
+  void _showPicker(context, type) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: new Wrap(
+                children: <Widget>[
+                  new ListTile(
+                      leading: new Icon(Icons.photo_library),
+                      title: new Text('Photo Gallery'),
+                      onTap: () {
+                        selectImage(ImageSource.gallery, 50, type);
+                        Navigator.of(context).pop();
+                      }),
+                  new ListTile(
+                    leading: new Icon(Icons.photo_camera),
+                    title: new Text('Camera'),
+                    onTap: () {
+                      selectImage(ImageSource.camera, 50, type);
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 
   @override
@@ -167,7 +218,9 @@ class _AadharCardState extends State<AadharCard> {
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: Text(
-                            "Uploade Front Aadhaar",
+                            _imageFront == null
+                                ? "Uploade Front Aadhaar"
+                                : "Front_Aadhaar.png",
                             style: TextStyle(
                               fontSize: 16,
                               color: AppColors.primery_color,
@@ -175,16 +228,21 @@ class _AadharCardState extends State<AadharCard> {
                             ),
                           ),
                         ),
-                        Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                              color: AppColors.primery_color,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(6))),
-                          child: Icon(
-                            Icons.add,
-                            color: Colors.white,
+                        GestureDetector(
+                          onTap: () {
+                            _showPicker(context, "Front");
+                          },
+                          child: Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                                color: AppColors.primery_color,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(6))),
+                            child: Icon(
+                              Icons.add,
+                              color: Colors.white,
+                            ),
                           ),
                         )
                       ],
@@ -209,7 +267,9 @@ class _AadharCardState extends State<AadharCard> {
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: Text(
-                            "Uploade Back Aadhaar",
+                            _imageBack == null
+                                ? "Uploade Back Aadhaar"
+                                : "Back_Aadhaar.png",
                             style: TextStyle(
                               fontSize: 16,
                               color: AppColors.primery_color,
@@ -217,16 +277,21 @@ class _AadharCardState extends State<AadharCard> {
                             ),
                           ),
                         ),
-                        Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                              color: AppColors.primery_color,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(6))),
-                          child: Icon(
-                            Icons.add,
-                            color: Colors.white,
+                        GestureDetector(
+                          onTap: () {
+                            _showPicker(context, "Back");
+                          },
+                          child: Container(
+                            height: 40,
+                            width: 40,
+                            decoration: BoxDecoration(
+                                color: AppColors.primery_color,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(6))),
+                            child: Icon(
+                              Icons.add,
+                              color: Colors.white,
+                            ),
                           ),
                         )
                       ],
