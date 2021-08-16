@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loneapp/res/colors_constant.dart';
+import 'package:loneapp/screens/cal_emi/CalEmi.dart';
 import 'package:loneapp/screens/kyc_screens/pan_card_details.dart';
 import 'package:loneapp/screens/verify_number/verify_number.dart';
 
@@ -134,7 +135,7 @@ class _PanCardState extends State<PanCard> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => PanCard(),
+                  builder: (context) => CalEMI(),
                 ),
               );
             },
