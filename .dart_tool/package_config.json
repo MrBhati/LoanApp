@@ -74,6 +74,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "flutter_form_builder",
+      "rootUri": "file:///Users/mrbhati/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_form_builder-6.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter_localizations",
       "rootUri": "file:///Users/mrbhati/flutter/packages/flutter_localizations",
       "packageUri": "lib/",
@@ -82,12 +88,6 @@
     {
       "name": "flutter_plugin_android_lifecycle",
       "rootUri": "file:///Users/mrbhati/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.2",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "flutter_svg",
-      "rootUri": "file:///Users/mrbhati/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_svg-0.22.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -176,20 +176,14 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "overlay_screen",
+      "rootUri": "file:///Users/mrbhati/flutter/.pub-cache/hosted/pub.dartlang.org/overlay_screen-1.2.0+1-nullsafety.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "path",
       "rootUri": "file:///Users/mrbhati/flutter/.pub-cache/hosted/pub.dartlang.org/path-1.8.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "path_drawing",
-      "rootUri": "file:///Users/mrbhati/flutter/.pub-cache/hosted/pub.dartlang.org/path_drawing-0.5.1",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "path_parsing",
-      "rootUri": "file:///Users/mrbhati/flutter/.pub-cache/hosted/pub.dartlang.org/path_parsing-0.2.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -224,38 +218,8 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "pay",
-      "rootUri": "file:///Users/mrbhati/flutter/.pub-cache/hosted/pub.dartlang.org/pay-1.0.5",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "pay_android",
-      "rootUri": "file:///Users/mrbhati/flutter/.pub-cache/hosted/pub.dartlang.org/pay_android-1.0.4",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "pay_ios",
-      "rootUri": "file:///Users/mrbhati/flutter/.pub-cache/hosted/pub.dartlang.org/pay_ios-1.0.4",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "pay_platform_interface",
-      "rootUri": "file:///Users/mrbhati/flutter/.pub-cache/hosted/pub.dartlang.org/pay_platform_interface-1.0.2",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "pedantic",
       "rootUri": "file:///Users/mrbhati/flutter/.pub-cache/hosted/pub.dartlang.org/pedantic-1.11.1",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "petitparser",
-      "rootUri": "file:///Users/mrbhati/flutter/.pub-cache/hosted/pub.dartlang.org/petitparser-4.1.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -428,25 +392,13 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "xml",
-      "rootUri": "file:///Users/mrbhati/flutter/.pub-cache/hosted/pub.dartlang.org/xml-5.1.2",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "yaml",
-      "rootUri": "file:///Users/mrbhati/flutter/.pub-cache/hosted/pub.dartlang.org/yaml-3.1.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "loneapp",
       "rootUri": "../",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-08-16T12:31:22.606010Z",
+  "generated": "2021-08-18T07:04:27.971611Z",
   "generator": "pub",
   "generatorVersion": "2.13.1"
 }

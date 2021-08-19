@@ -1,6 +1,7 @@
 // import 'package:flutter/material.dart';
 // import 'package:loneapp/res/colors_constant.dart';
-// import 'package:loneapp/screens/splash_screen/model/splash_base_model.dart';
+import 'package:loneapp/screens/cal_emi/CalEmi.dart';
+import 'package:loneapp/screens/splash_screen/model/splash_base_model.dart';
 // import 'package:provider/provider.dart';
 
 // class Splash extends StatelessWidget {
@@ -75,7 +76,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:loneapp/screens/login/login.dart';
-
+import 'package:loneapp/res/colors_constant.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class Splash extends StatefulWidget {
   @override
   VideoState createState() => VideoState();
@@ -86,6 +88,7 @@ class VideoState extends State<Splash> with SingleTickerProviderStateMixin {
 
   late AnimationController animationController;
   Animation<double>? animation;
+  bool isSubmited = false;
 
   startTime() async {
     var _duration = new Duration(seconds: 4);
@@ -93,16 +96,32 @@ class VideoState extends State<Splash> with SingleTickerProviderStateMixin {
   }
 
   void navigationPage() {
-    Navigator.pushReplacement(
+    if(isSubmited){
+Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CalEMI(),
+      ),
+    );
+    }else{
+      Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => Login(),
       ),
     );
+    }
+    
   }
+ void getSharedDta() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+   
+    isSubmited =  prefs.getBool("isSubmited") ?? false;
 
+  }
   @override
   void initState() {
+    getSharedDta();
     super.initState();
 
     animationController = new AnimationController(
@@ -122,6 +141,7 @@ class VideoState extends State<Splash> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       backgroundColor: Colors.white,
       body: Stack(
         fit: StackFit.expand,
@@ -143,6 +163,15 @@ class VideoState extends State<Splash> with SingleTickerProviderStateMixin {
                 width: animation!.value * 110,
                 height: animation!.value * 110,
               ),
+              SizedBox(height: 20),
+                 Text(
+                        "Instant Fast Loan",
+                        style: TextStyle(
+                          fontSize: 30,
+                          color: AppColors.primery_color,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
             ],
           ),
         ],

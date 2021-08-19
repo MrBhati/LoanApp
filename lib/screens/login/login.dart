@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loneapp/res/colors_constant.dart';
+import 'package:loneapp/screens/extra/tc.dart';
 import 'package:loneapp/screens/verify_number/verify_number.dart';
 
 class Login extends StatefulWidget {
@@ -11,7 +12,21 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final _loginFormKey = GlobalKey<FormState>();
+  // By defaut, the checkbox is unchecked and "agree" is "false"
+  bool agree = false;
 
+  // This function is triggered when the button is clicked
+  void _doSomething(){
+      if (_loginFormKey.currentState!.validate()) {
+                        setState(() {
+                          _isloading = true;
+                        });
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => VerifyNumber()));
+                      }
+  }
   bool _isloading = false;
   // TextEditingController mobileController;
   @override
@@ -25,6 +40,41 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       appBar: AppBar(
+            toolbarHeight: 80,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children:[
+            Text("LogIn"),
+            
+             Image.asset(
+                  'assets/images/logo.jpeg',
+                  height: 60,
+                ),
+          ]
+        ),
+        flexibleSpace: Image(
+          image: AssetImage('assets/images/new.jpeg'),
+          fit: BoxFit.cover,
+            
+        ),
+        backgroundColor: Colors.transparent,
+      ),
+       bottomNavigationBar: Container(
+        
+        height:100,
+        
+        width: double.infinity,
+        decoration: BoxDecoration(
+                       image: DecorationImage(
+          image: AssetImage('assets/images/bottom.jpeg'),
+          fit: BoxFit.fill,
+        ),
+       
+        ),
+        padding: const EdgeInsets.fromLTRB(50, 20, 50, 10),
+      
+      ),
       body: SafeArea(
         child: Form(
           key: _loginFormKey,
@@ -95,18 +145,59 @@ class _LoginState extends State<Login> {
                     ],
                   )),
                 ),
+                  Row(
+          children: [
+            Material(
+              child: Checkbox(
+                value: agree,
+                onChanged: (value) {
+                  setState(() {
+                    agree = value!;
+                  });
+                },
+              ),
+            ),
+            GestureDetector(
+              onTap: (){
+                Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => TermsandConditions()));
+              },
+              child: Text(
+                'I have read and accept terms and conditions',
+                overflow: TextOverflow.ellipsis,
+              ),
+            )
+          ],
+        ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                   child: GestureDetector(
-                    onTap: () {
-                      if (_loginFormKey.currentState!.validate()) {
-                        setState(() {
-                          _isloading = true;
-                        });
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => VerifyNumber()));
+                    onTap:(){
+                      if(agree){
+                        _doSomething();
+                      }else{
+ showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (BuildContext context) {
+                return Dialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  child: contentBox(context),
+                );
+                // return CustomDialogBox(
+                //   title: "Instant Fast Loan OTP",
+                //   descriptions: "Your one time password (OTP) is:",
+                //   otp: "9059",
+                //   text: "Yes",
+                //   setOtp: updateOTP(),
+                // );
+              });
                       }
                     },
                     child: Container(
@@ -132,6 +223,75 @@ class _LoginState extends State<Login> {
           )),
         ),
       ),
+    );
+  }
+   contentBox(context) {
+    return Stack(
+      children: <Widget>[
+        Container(
+          padding:
+              EdgeInsets.only(left: 20, top: 45 + 20, right: 20, bottom: 20),
+          margin: EdgeInsets.only(top: 45),
+          decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black26,
+                    offset: Offset(0, 10),
+                    blurRadius: 10),
+              ]),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                "Filed Required",
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Text(
+                "Please accept term and condition by check box",
+                style: TextStyle(fontSize: 14),
+                textAlign: TextAlign.center,
+              ),
+            
+              SizedBox(
+                height: 22,
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: FlatButton(
+                    color: AppColors.primery_color,
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                   
+                    },
+                    child: Text(
+                      "OK",
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    )),
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+          left: 20,
+          right: 20,
+          child: CircleAvatar(
+            backgroundColor: Colors.transparent,
+            radius: 45,
+            child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(45)),
+                child: Image.asset("assets/images/logo.jpeg")),
+          ),
+        ),
+      ],
     );
   }
 }

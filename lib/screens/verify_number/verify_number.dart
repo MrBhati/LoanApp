@@ -197,6 +197,41 @@ class _VerifyNumberState extends State<VerifyNumber> {
   Widget build(BuildContext context) {
     // startTime(context);
     return Scaffold(
+        appBar: AppBar(
+            toolbarHeight: 80,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children:[
+            Text("Verify Number"),
+            
+             Image.asset(
+                  'assets/images/logo.jpeg',
+                  height: 60,
+                ),
+          ]
+        ),
+        flexibleSpace: Image(
+          image: AssetImage('assets/images/new.jpeg'),
+          fit: BoxFit.cover,
+            
+        ),
+        backgroundColor: Colors.transparent,
+      ),
+       bottomNavigationBar: Container(
+        
+        height:100,
+        
+        width: double.infinity,
+        decoration: BoxDecoration(
+                       image: DecorationImage(
+          image: AssetImage('assets/images/bottom.jpeg'),
+          fit: BoxFit.fill,
+        ),
+       
+        ),
+        padding: const EdgeInsets.fromLTRB(50, 20, 50, 10),
+      
+      ),
       body: SafeArea(
         child: Form(
           key: _verifyotpFormKey,

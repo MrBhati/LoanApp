@@ -13,6 +13,7 @@ class FaceIdentity extends StatefulWidget {
 
 class _FaceIdentityState extends State<FaceIdentity> {
   XFile? _imageFace;
+  bool isImageTaken = false;
   final ImagePicker _picker = ImagePicker();
   selectImage() async {
     try {
@@ -31,105 +32,175 @@ class _FaceIdentityState extends State<FaceIdentity> {
     }
   }
 
+ contentBox(context) {
+    return Stack(
+      children: <Widget>[
+        Container(
+          padding:
+              EdgeInsets.only(left: 20, top: 45 + 20, right: 20, bottom: 20),
+          margin: EdgeInsets.only(top: 45),
+          decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black26,
+                    offset: Offset(0, 10),
+                    blurRadius: 10),
+              ]),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                "Photo Required",
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Text(
+                "Face Phpto identy required plese uplode latest photo.",
+                style: TextStyle(fontSize: 14),
+                textAlign: TextAlign.center,
+              ),
+            
+              SizedBox(
+                height: 22,
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: FlatButton(
+                    color: AppColors.primery_color,
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                   
+                    },
+                    child: Text(
+                      "OK",
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    )),
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+          left: 20,
+          right: 20,
+          child: CircleAvatar(
+            backgroundColor: Colors.transparent,
+            radius: 45,
+            child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(45)),
+                child: Image.asset("assets/images/logo.jpeg")),
+          ),
+        ),
+      ],
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 105,
-          backgroundColor: Colors.transparent,
-          automaticallyImplyLeading: true,
-          title: Container(
-            decoration: BoxDecoration(
-              color: AppColors.primery_color,
-              borderRadius: BorderRadius.only(
-                  //topRight: Radius.circular(40.0),
-                  bottomRight: Radius.circular(10.0),
-                  // topLeft: Radius.circular(40.0),
-                  bottomLeft: Radius.circular(10.0)),
-            ),
-            width: double.infinity,
-            height: 105,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 10,
+
+  appBar: AppBar(
+            toolbarHeight: 80,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children:[
+            Text("Face Identity"),
+            
+             Image.asset(
+                  'assets/images/logo.jpeg',
+                  height: 60,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Icon(
-                      Icons.arrow_left,
-                      color: Colors.white,
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Text("Face Identity")
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  width: double.infinity,
-                  child: Center(
-                    child: Image.asset(
-                      'assets/images/step2.png',
-                      height: 40,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-              ],
-            ),
-          ),
+          ]
         ),
-        bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-            color: Colors.black12,
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(10.0),
-              //bottomRight: Radius.circular(10.0),
-              topLeft: Radius.circular(10.0),
-              //bottomLeft: Radius.circular(10.0)
-            ),
-          ),
-          padding: const EdgeInsets.fromLTRB(50, 20, 50, 10),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.pushReplacement(
+        flexibleSpace: Image(
+          image: AssetImage('assets/images/new.jpeg'),
+          fit: BoxFit.cover,
+            
+        ),
+        backgroundColor: Colors.transparent,
+      ),
+
+
+
+
+
+  bottomNavigationBar: Container(
+        
+        height:100,
+        
+        width: double.infinity,
+        decoration: BoxDecoration(
+                       image: DecorationImage(
+          image: AssetImage('assets/images/bottom.jpeg'),
+          fit: BoxFit.fill,
+        ),
+       
+        ),
+        padding: const EdgeInsets.fromLTRB(50, 20, 50, 10),
+        child: GestureDetector(
+         onTap: () {
+              if(_imageFace != null){
+ Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => AadharCard(),
                 ),
               );
+              }else{
+                  showDialog(
+              barrierDismissible: false,
+              context: context,
+              builder: (BuildContext context) {
+                return Dialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  child: contentBox(context),
+                );
+                // return CustomDialogBox(
+                //   title: "Instant Fast Loan OTP",
+                //   descriptions: "Your one time password (OTP) is:",
+                //   otp: "9059",
+                //   text: "Yes",
+                //   setOtp: updateOTP(),
+                // );
+              });
+              }
+             
             },
-            child: Container(
-              height: 40,
-              decoration: BoxDecoration(
-                  color: AppColors.primery_color,
-                  borderRadius: BorderRadius.all(Radius.circular(6))),
-              alignment: Alignment.center,
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      " GO TO STEP 3 ",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ],
-                ),
-              ),
+          child: Container(
+      margin: const EdgeInsets.all(12.0),
+            decoration: BoxDecoration(
+       
+                color: AppColors.accent_color,
+                borderRadius: BorderRadius.all(Radius.circular(40))),
+            alignment: Alignment.center,
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Text(
+                    " Submit ",
+                    style: TextStyle(
+                        color: AppColors.primery_color,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600),
+                  ),
             ),
           ),
         ),
+      ),
+
+
+
+
+     
         body: SafeArea(
           child: SingleChildScrollView(
             child: Container(

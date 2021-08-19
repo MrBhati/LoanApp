@@ -1,10 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loneapp/res/colors_constant.dart';
 import 'package:loneapp/res/string_constant.dart';
 import 'package:loneapp/screens/kyc_screens/pan_card_details.dart';
-import 'package:loneapp/screens/pay/pay.dart';
+import 'package:loneapp/screens/done/done.dart';
 import 'package:loneapp/screens/verify_number/verify_number.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CalEMI extends StatefulWidget {
@@ -24,22 +27,31 @@ class _CalEMIState extends State<CalEMI> {
   String intrest = '1000';
   String rePayment = '20,718';
   List<String> amounts = ['20,000', '30,000', '50,000', '80,000', '1,00,000'];
-  List<String> days = ['120', '180', '180', '180', '180'];
+  List<String> days = ['120', '180', '240', '300', '360'];
   String disbursal = '20,000';
   String payLink = StringConstant.pay292;
+
+
+void navigationPage() {
+
+      Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Done()));
+  }
 
  initiateTransaction() async {
     String upi_url =
         payLink;
     await launch(upi_url).then((value) {
       print(value);
-        Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Pay(),
-              ),
-            );
+      var _duration = new Duration(seconds: 2);
+    return new Timer(_duration, navigationPage);
+          
     }).catchError((err) => print(err));
+     SharedPreferences prefs = await SharedPreferences.getInstance();
+   
+    prefs.setBool("isSubmited", true);
   }
 
   void updateAmount() {
@@ -281,97 +293,72 @@ class _CalEMIState extends State<CalEMI> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 105,
-        backgroundColor: Colors.transparent,
-        automaticallyImplyLeading: true,
-        title: Container(
-          decoration: BoxDecoration(
-            color: AppColors.primery_color,
-            borderRadius: BorderRadius.only(
-                //topRight: Radius.circular(40.0),
-                bottomRight: Radius.circular(10.0),
-                // topLeft: Radius.circular(40.0),
-                bottomLeft: Radius.circular(10.0)),
-          ),
-          width: double.infinity,
-          height: 105,
-          child: Column(
-            children: [
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Icon(
-                    Icons.arrow_left,
-                    color: Colors.white,
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Text("Pan Card Information")
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                width: double.infinity,
-                child: Center(
-                  child: Image.asset(
-                    'assets/images/step4.png',
-                    height: 40,
-                  ),
+     
+  appBar: AppBar(
+            toolbarHeight: 80,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children:[
+            Text("Calculate EMI"),
+            
+             Image.asset(
+                  'assets/images/logo.jpeg',
+                  height: 60,
                 ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-            ],
-          ),
+          ]
         ),
+        flexibleSpace: Image(
+          image: AssetImage('assets/images/new.jpeg'),
+          fit: BoxFit.cover,
+            
+        ),
+        backgroundColor: Colors.transparent,
       ),
-      bottomNavigationBar: Container(
+
+
+
+
+
+
+  bottomNavigationBar: Container(
+        
+        height:100,
+        
+        width: double.infinity,
         decoration: BoxDecoration(
-          color: Colors.black12,
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(10.0),
-            //bottomRight: Radius.circular(10.0),
-            topLeft: Radius.circular(10.0),
-            //bottomLeft: Radius.circular(10.0)
-          ),
+                       image: DecorationImage(
+          image: AssetImage('assets/images/bottom.jpeg'),
+          fit: BoxFit.fill,
+        ),
+       
         ),
         padding: const EdgeInsets.fromLTRB(50, 20, 50, 10),
         child: GestureDetector(
-          onTap: () {
+           onTap: () {
          initiateTransaction();
           },
           child: Container(
-            height: 40,
+      margin: const EdgeInsets.all(12.0),
             decoration: BoxDecoration(
-                color: AppColors.primery_color,
-                borderRadius: BorderRadius.all(Radius.circular(6))),
+       
+                color: AppColors.accent_color,
+                borderRadius: BorderRadius.all(Radius.circular(40))),
             alignment: Alignment.center,
             child: Padding(
               padding: const EdgeInsets.all(12.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
+              child: Text(
                     " Submit ",
                     style: TextStyle(
-                        color: Colors.white,
+                        color: AppColors.primery_color,
                         fontSize: 16,
                         fontWeight: FontWeight.w600),
                   ),
-                ],
-              ),
             ),
           ),
         ),
       ),
+
+
       body: SafeArea(
         child: Container(
           padding: EdgeInsets.all(20),

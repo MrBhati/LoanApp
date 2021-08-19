@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:loneapp/res/colors_constant.dart';
 import 'package:loneapp/screens/kyc_screens/face_identity.dart';
 import 'package:loneapp/screens/verify_number/verify_number.dart';
+import 'package:loneapp/utillity/form_validator.dart';
+import 'package:overlay_screen/overlay_screen.dart';
 
 class BasicDetails extends StatefulWidget {
   BasicDetails({Key? key}) : super(key: key);
@@ -11,118 +14,144 @@ class BasicDetails extends StatefulWidget {
 }
 
 class _BasicDetailsState extends State<BasicDetails> {
-  String? _genderRadioBtnVal;
+
   void _handleGenderChange(String? value) {
     setState(() {
       _genderRadioBtnVal = value;
     });
   }
 
+
+  TextEditingController dobController = TextEditingController();
+    TextEditingController fnameController = TextEditingController();
+      TextEditingController lnameController = TextEditingController();
+        TextEditingController emailController = TextEditingController();
+         TextEditingController pinController = TextEditingController();
+          TextEditingController addressController = TextEditingController();
+GlobalKey<FormState> basicInfoForm = new GlobalKey();
+ DateTime currentDate = DateTime.now();
+   String? _genderRadioBtnVal;
+  var myFormat = DateFormat('yyyy-MM-d');
+  @override
+  void initState() {
+  
+    super.initState();
+    }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 105,
-          backgroundColor: Colors.transparent,
-          automaticallyImplyLeading: true,
-          title: Container(
-            decoration: BoxDecoration(
-              color: AppColors.primery_color,
-              borderRadius: BorderRadius.only(
-                  //topRight: Radius.circular(40.0),
-                  bottomRight: Radius.circular(10.0),
-                  // topLeft: Radius.circular(40.0),
-                  bottomLeft: Radius.circular(10.0)),
+    OverlayScreen().saveScreens({
+      'custom1': CustomOverlayScreen(
+        backgroundColor: Colors.blue.withOpacity(0.5),
+        content: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Icon(
+              Icons.backup,
+              color: Colors.white,
             ),
-            width: double.infinity,
-            height: 105,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Icon(
-                      Icons.arrow_left,
-                      color: Colors.white,
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Text("Personal Information")
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  width: double.infinity,
-                  child: Center(
-                    child: Image.asset(
-                      'assets/images/step1.png',
-                      height: 40,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-              ],
+            SizedBox(height: 10.0),
+            Text(
+              "Uploading data...",
+              style: TextStyle(
+                color: Colors.white,
+                fontStyle: FontStyle.italic,
+              ),
             ),
-          ),
+          ],
         ),
-        bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-            color: Colors.black12,
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(10.0),
-              //bottomRight: Radius.circular(10.0),
-              topLeft: Radius.circular(10.0),
-              //bottomLeft: Radius.circular(10.0)
-            ),
-          ),
-          padding: const EdgeInsets.fromLTRB(50, 20, 50, 10),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.pushReplacement(
+      ),
+      
+    });
+return Scaffold(
+      
+appBar: AppBar(
+            toolbarHeight: 80,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children:[
+            Text("Basic Details"),
+            
+             Image.asset(
+                  'assets/images/logo.jpeg',
+                  height: 60,
+                ),
+          ]
+        ),
+        flexibleSpace: Image(
+          image: AssetImage('assets/images/new.jpeg'),
+          fit: BoxFit.cover,
+            
+        ),
+        backgroundColor: Colors.transparent,
+      ),
+
+    
+
+  bottomNavigationBar: Container(
+        
+        height:100,
+        
+        width: double.infinity,
+        decoration: BoxDecoration(
+                       image: DecorationImage(
+          image: AssetImage('assets/images/bottom.jpeg'),
+          fit: BoxFit.fill,
+        ),
+       
+        ),
+        padding: const EdgeInsets.fromLTRB(50, 20, 50, 10),
+        child: GestureDetector(
+           onTap: () 
+            
+            async {
+
+               if (basicInfoForm.currentState!.validate()) {
+                OverlayScreen().show(context);
+                await Future.delayed(
+                  Duration(seconds: 4),
+                  () {
+                    },
+                );
+                OverlayScreen().pop();
+                       Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => FaceIdentity(),
                 ),
               );
+              };
             },
-            child: Container(
-              height: 40,
-              decoration: BoxDecoration(
-                  color: AppColors.primery_color,
-                  borderRadius: BorderRadius.all(Radius.circular(6))),
-              alignment: Alignment.center,
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      " GO TO STEP 2 ",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ],
-                ),
-              ),
+          child: Container(
+      margin: const EdgeInsets.all(12.0),
+            decoration: BoxDecoration(
+       
+                color: AppColors.accent_color,
+                borderRadius: BorderRadius.all(Radius.circular(40))),
+            alignment: Alignment.center,
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Text(
+                    " Submit ",
+                    style: TextStyle(
+                        color: AppColors.primery_color,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600),
+                  ),
             ),
           ),
         ),
+      ),
+       
         body: SafeArea(
+      
           child: SingleChildScrollView(
             child: Container(
               padding: EdgeInsets.all(20),
               child: Form(
+                 key:basicInfoForm,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("Select Gender"),
                     Row(
@@ -163,6 +192,8 @@ class _BasicDetailsState extends State<BasicDetails> {
                       height: 18,
                     ),
                     TextFormField(
+                       validator: validateRequired,
+                      controller: fnameController,
                       onChanged: (String val) {
                         // _formProvider.validateName(val);
                       },
@@ -176,10 +207,12 @@ class _BasicDetailsState extends State<BasicDetails> {
                       height: 10,
                     ),
                     TextFormField(
+                       validator: validateRequired,
                       onChanged: (String val) {
                         // _formProvider.validateName(val);
                       },
                       keyboardType: TextInputType.name,
+                      controller: lnameController,
                       decoration: InputDecoration(
                           //errorText: _formProvider.name.error,
                           hintText: "Enter Last Name",
@@ -189,6 +222,8 @@ class _BasicDetailsState extends State<BasicDetails> {
                       height: 10,
                     ),
                     TextFormField(
+                       validator: validateEmail,
+                       controller: emailController,
                       onChanged: (String val) {
                         // _formProvider.validateEmail(val);
                       },
@@ -201,24 +236,31 @@ class _BasicDetailsState extends State<BasicDetails> {
                     SizedBox(
                       height: 10,
                     ),
-                    TextFormField(
+                    InkWell(
+                            onTap: (){selectDate(context);},
+                            child: IgnorePointer(
+                              child: TextFormField(
+                                 validator: validateRequired,
                       onChanged: (String val) {
                         //  _formProvider.validatePhone(val);
                       },
                       keyboardType: TextInputType.phone,
+                       controller: dobController,
                       decoration: InputDecoration(
                           // errorText: _formProvider.phone.error,
                           hintText: "Enter Birth Date",
                           labelText: "Enter Birth Date"),
-                    ),
+                    ))),
                     SizedBox(
                       height: 10,
                     ),
                     TextFormField(
+                       validator: validateRequired,
+                       controller: addressController,
                       onChanged: (String val) {
                         //_formProvider.validatePassword(val);
                       },
-                      obscureText: true,
+                   
                       decoration: InputDecoration(
                           // errorText: _formProvider.password.error,
                           hintText: "Enter Address",
@@ -228,10 +270,13 @@ class _BasicDetailsState extends State<BasicDetails> {
                       height: 10,
                     ),
                     TextFormField(
+                       validator: validateRequired,
+                       controller: pinController,
                       onChanged: (String val) {
                         //  _formProvider.validatePhone(val);
                       },
                       keyboardType: TextInputType.phone,
+                    maxLength: 6,
                       decoration: InputDecoration(
                           // errorText: _formProvider.phone.error,
                           hintText: "Enter PinCode",
@@ -246,5 +291,18 @@ class _BasicDetailsState extends State<BasicDetails> {
             ),
           ),
         ));
+  }
+Future<void> selectDate(BuildContext context) async {
+    final DateTime pickedDate = (await showDatePicker(
+        context: context,
+        initialDate: DateTime(2000),
+        firstDate: DateTime(1980),
+        lastDate: DateTime(2010)))!;
+    if (pickedDate != null && pickedDate != currentDate)
+      currentDate = pickedDate;
+    myFormat.format(pickedDate);
+    print(myFormat.format(pickedDate).toString());
+    dobController.text = myFormat.format(pickedDate).toString();
+
   }
 }

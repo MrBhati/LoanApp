@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:loneapp/componets/custom_app_bar.dart';
 import 'package:loneapp/res/colors_constant.dart';
 import 'package:loneapp/screens/kyc_screens/basic_detaild.dart';
+import 'package:loneapp/screens/menu/menu.dart';
 
 class Home extends StatefulWidget {
   Home({Key? key}) : super(key: key);
@@ -14,47 +15,87 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 65,
-        backgroundColor: Colors.transparent,
-        automaticallyImplyLeading: true,
-        title: Container(
-          decoration: BoxDecoration(
-            color: AppColors.primery_color,
-            borderRadius: BorderRadius.only(
-                //topRight: Radius.circular(40.0),
-                bottomRight: Radius.circular(10.0),
-                // topLeft: Radius.circular(40.0),
-                bottomLeft: Radius.circular(10.0)),
-          ),
-          width: double.infinity,
-          height: 65,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text("Dashboard"),
-              Icon(
+          appBar: AppBar(
+            toolbarHeight: 80,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children:[
+            Row(
+              children:[
+                 GestureDetector(
+         onTap: () {
+               Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Menu()));
+         },
+               child:   Icon(
                 Icons.menu,
                 color: Colors.white,
-              )
-            ],
-          ),
+              )),
+               SizedBox(
+                  width: 15,
+                ),
+              Text("Dashbord"),
+              ]
+            ),
+            
+             Image.asset(
+                  'assets/images/logo.jpeg',
+                  height: 60,
+                ),
+          ]
         ),
+        flexibleSpace: Image(
+          image: AssetImage('assets/images/new.jpeg'),
+          fit: BoxFit.cover,
+            
+        ),
+        backgroundColor: Colors.transparent,
       ),
+      // appBar: AppBar(
+      //   toolbarHeight: 65,
+      //   backgroundColor: Colors.transparent,
+      //   automaticallyImplyLeading: true,
+      //   title: Container(
+      //     decoration: BoxDecoration(
+      //       color: AppColors.primery_color,
+      //       borderRadius: BorderRadius.only(
+      //           //topRight: Radius.circular(40.0),
+      //           bottomRight: Radius.circular(10.0),
+      //           // topLeft: Radius.circular(40.0),
+      //           bottomLeft: Radius.circular(10.0)),
+      //     ),
+      //     width: double.infinity,
+      //     height: 65,
+      //     child: Row(
+      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //       children: [
+      //         Text("Dashboard"),
+      //         Icon(
+      //           Icons.menu,
+      //           color: Colors.white,
+      //         )
+      //       ],
+      //     ),
+      //   ),
+      // ),
       bottomNavigationBar: Container(
+        
+        height:100,
+        
+        width: double.infinity,
         decoration: BoxDecoration(
-          color: Colors.black12,
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(10.0),
-            //bottomRight: Radius.circular(10.0),
-            topLeft: Radius.circular(10.0),
-            //bottomLeft: Radius.circular(10.0)
-          ),
+                       image: DecorationImage(
+          image: AssetImage('assets/images/bottom.jpeg'),
+          fit: BoxFit.fill,
+        ),
+       
         ),
         padding: const EdgeInsets.fromLTRB(50, 20, 50, 10),
         child: GestureDetector(
           onTap: () {
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => BasicDetails(),
@@ -62,76 +103,84 @@ class _HomeState extends State<Home> {
             );
           },
           child: Container(
-            height: 40,
+      margin: const EdgeInsets.all(12.0),
             decoration: BoxDecoration(
-                color: AppColors.primery_color,
-                borderRadius: BorderRadius.all(Radius.circular(6))),
+       
+                color: AppColors.accent_color,
+                borderRadius: BorderRadius.all(Radius.circular(40))),
             alignment: Alignment.center,
             child: Padding(
               padding: const EdgeInsets.all(12.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
+              child: Text(
                     " GO TO ADD KYC ",
                     style: TextStyle(
-                        color: Colors.white,
+                        color: AppColors.primery_color,
                         fontSize: 16,
                         fontWeight: FontWeight.w600),
                   ),
-                  Icon(
-                    Icons.arrow_right_outlined,
-                    size: 18,
-                  )
-                ],
-              ),
             ),
           ),
         ),
       ),
       body: SafeArea(
           child: Column(
+            
         children: [
+       
           Container(
             margin: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
             padding: EdgeInsets.all(5),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(color: Colors.green, spreadRadius: 1),
-              ],
-            ),
-            child: Row(
+           
+            child:  
+            
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'assets/images/logo.jpeg',
-                  height: 50,
-                ),
+              children: [ Text(
+                  "Minimum Documentation needed &",
+               style: TextStyle(
+                    fontSize: 16,
+                    color: AppColors.primery_color,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ), 
                 SizedBox(
-                  width: 15,
+                  height: 8,
                 ),
                 Text(
-                  "Instance Fast Loan",
-                  style: TextStyle(
-                    fontSize: 22,
+                  "very easy steps to use our loan",
+                style: TextStyle(
+                    fontSize: 16,
                     color: AppColors.primery_color,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w400,
                   ),
-                )
-              ],
-            ),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                 Text(
+                  "service",
+                    style: TextStyle(
+                    fontSize: 16,
+                    color: AppColors.primery_color,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                ]),
           ),
           Container(
+            height:150,
             width: double.infinity,
             margin: EdgeInsets.symmetric(horizontal: 40, vertical: 5),
             padding: EdgeInsets.all(2),
             decoration: BoxDecoration(
+               color: AppColors.accent_color,
               borderRadius: BorderRadius.circular(10),
-              color: Colors.white,
+            
               boxShadow: [
-                BoxShadow(color: Colors.green, spreadRadius: 1),
+                BoxShadow(color: AppColors.primery_color, spreadRadius: 1),
               ],
             ),
             child: Column(
@@ -141,24 +190,14 @@ class _HomeState extends State<Home> {
                   height: 10,
                 ),
                 Text(
-                  "Get your Expected Loan with Instant Fast Loan",
+                  "Maximum Loan Amount Upto",
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 16,
                     color: AppColors.primery_color,
-                    fontWeight: FontWeight.w300,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
-                SizedBox(
-                  height: 8,
-                ),
-                Text(
-                  "Maximum Loan Provide Upto",
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: AppColors.primery_color,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
+              
                 SizedBox(
                   height: 15,
                 ),
@@ -180,16 +219,10 @@ class _HomeState extends State<Home> {
             width: double.infinity,
             margin: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
             padding: EdgeInsets.all(25),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(color: Colors.green, spreadRadius: 1),
-              ],
-            ),
+        
             child: Image.asset(
-              'assets/images/step.png',
-              height: 200,
+              'assets/images/homeStep.png',
+              
             ),
           ),
         ],
