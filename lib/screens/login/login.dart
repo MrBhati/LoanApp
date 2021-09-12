@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:loneapp/componets/AdmobHelper.dart';
 import 'package:loneapp/res/colors_constant.dart';
 import 'package:loneapp/screens/extra/tc.dart';
 import 'package:loneapp/screens/verify_number/verify_number.dart';
@@ -170,6 +172,13 @@ class _LoginState extends State<Login> {
               ),
             )
           ],
+        ),
+          Container(
+          child: AdWidget(
+            ad: AdmobHelper.getBannerAd()..load(),
+            key: UniqueKey(),
+          ),
+          height: 50,
         ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),

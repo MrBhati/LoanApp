@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:loneapp/componets/AdmobHelper.dart';
 import 'package:loneapp/res/colors_constant.dart';
 import 'package:loneapp/screens/kyc_screens/aadhar_card_details.dart';
 import 'package:loneapp/screens/verify_number/verify_number.dart';
@@ -132,7 +134,7 @@ class _FaceIdentityState extends State<FaceIdentity> {
 
   bottomNavigationBar: Container(
         
-        height:100,
+        height:160,
         
         width: double.infinity,
         decoration: BoxDecoration(
@@ -143,58 +145,71 @@ class _FaceIdentityState extends State<FaceIdentity> {
        
         ),
         padding: const EdgeInsets.fromLTRB(50, 20, 50, 10),
-        child: GestureDetector(
-         onTap: () {
-              if(_imageFace != null){
+        child: Column(
+          children: [
+            GestureDetector(
+             onTap: () {
+                  if(_imageFace != null){
  Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AadharCard(),
-                ),
-              );
-              }else{
-                  showDialog(
-              barrierDismissible: false,
-              context: context,
-              builder: (BuildContext context) {
-                return Dialog(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  elevation: 0,
-                  backgroundColor: Colors.transparent,
-                  child: contentBox(context),
-                );
-                // return CustomDialogBox(
-                //   title: "Instant Fast Loan OTP",
-                //   descriptions: "Your one time password (OTP) is:",
-                //   otp: "9059",
-                //   text: "Yes",
-                //   setOtp: updateOTP(),
-                // );
-              });
-              }
-             
-            },
-          child: Container(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AadharCard(),
+                    ),
+                  );
+                  }else{
+                      showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return Dialog(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      elevation: 0,
+                      backgroundColor: Colors.transparent,
+                      child: contentBox(context),
+                    );
+                    // return CustomDialogBox(
+                    //   title: "Instant Fast Loan OTP",
+                    //   descriptions: "Your one time password (OTP) is:",
+                    //   otp: "9059",
+                    //   text: "Yes",
+                    //   setOtp: updateOTP(),
+                    // );
+                  });
+                  }
+                 
+                },
+              child: Container(
       margin: const EdgeInsets.all(12.0),
-            decoration: BoxDecoration(
+                decoration: BoxDecoration(
        
-                color: AppColors.accent_color,
-                borderRadius: BorderRadius.all(Radius.circular(40))),
-            alignment: Alignment.center,
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Text(
-                    " Submit ",
-                    style: TextStyle(
-                        color: AppColors.primery_color,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600),
-                  ),
+                    color: AppColors.accent_color,
+                    borderRadius: BorderRadius.all(Radius.circular(40))),
+                alignment: Alignment.center,
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Text(
+                        " Submit ",
+                        style: TextStyle(
+                            color: AppColors.primery_color,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600),
+                      ),
+                ),
+              ),
             ),
+             Container(
+          child: AdWidget(
+            ad: AdmobHelper.getBannerAd()..load(),
+            key: UniqueKey(),
           ),
+          height: 50,
         ),
+   
+          ],
+        ),
+       
       ),
 
 

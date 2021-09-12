@@ -116,6 +116,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "google_mobile_ads",
+      "rootUri": "file:///Users/mrbhati/flutter/.pub-cache/hosted/pub.dartlang.org/google_mobile_ads-0.13.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "http",
       "rootUri": "file:///Users/mrbhati/flutter/.pub-cache/hosted/pub.dartlang.org/http-0.13.3",
       "packageUri": "lib/",
@@ -398,7 +404,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-08-18T07:04:27.971611Z",
+  "generated": "2021-09-08T05:07:12.334484Z",
   "generator": "pub",
-  "generatorVersion": "2.13.1"
+  "generatorVersion": "2.13.4"
 }

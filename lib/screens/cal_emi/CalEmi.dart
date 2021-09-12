@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:loneapp/componets/AdmobHelper.dart';
 import 'package:loneapp/res/colors_constant.dart';
 import 'package:loneapp/res/string_constant.dart';
 import 'package:loneapp/screens/kyc_screens/pan_card_details.dart';
@@ -322,7 +324,7 @@ void navigationPage() {
 
   bottomNavigationBar: Container(
         
-        height:100,
+        height:110,
         
         width: double.infinity,
         decoration: BoxDecoration(
@@ -332,29 +334,40 @@ void navigationPage() {
         ),
        
         ),
-        padding: const EdgeInsets.fromLTRB(50, 20, 50, 10),
-        child: GestureDetector(
-           onTap: () {
-         initiateTransaction();
-          },
-          child: Container(
-      margin: const EdgeInsets.all(12.0),
-            decoration: BoxDecoration(
+        padding: const EdgeInsets.fromLTRB(50, 5, 50, 5),
+        child: Column(
+          children: [
+            GestureDetector(
+               onTap: () {
+             initiateTransaction();
+              },
+              child: Container(
+      margin: const EdgeInsets.all(0.0),
+                decoration: BoxDecoration(
        
-                color: AppColors.accent_color,
-                borderRadius: BorderRadius.all(Radius.circular(40))),
-            alignment: Alignment.center,
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Text(
-                    " Submit ",
-                    style: TextStyle(
-                        color: AppColors.primery_color,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600),
-                  ),
+                    color: AppColors.accent_color,
+                    borderRadius: BorderRadius.all(Radius.circular(40))),
+                alignment: Alignment.center,
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Text(
+                        " Submit ",
+                        style: TextStyle(
+                            color: AppColors.primery_color,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600),
+                      ),
+                ),
+              ),
             ),
+             Container(
+          child: AdWidget(
+            ad: AdmobHelper.getBannerAd()..load(),
+            key: UniqueKey(),
           ),
+          height: 50,
+        ),
+          ],
         ),
       ),
 

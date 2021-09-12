@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/intl.dart';
+import 'package:loneapp/componets/AdmobHelper.dart';
 import 'package:loneapp/res/colors_constant.dart';
 import 'package:loneapp/screens/kyc_screens/face_identity.dart';
 import 'package:loneapp/screens/verify_number/verify_number.dart';
@@ -90,7 +92,7 @@ appBar: AppBar(
 
   bottomNavigationBar: Container(
         
-        height:100,
+        height:150,
         
         width: double.infinity,
         decoration: BoxDecoration(
@@ -101,47 +103,59 @@ appBar: AppBar(
        
         ),
         padding: const EdgeInsets.fromLTRB(50, 20, 50, 10),
-        child: GestureDetector(
-           onTap: () 
-            
-            async {
+        child: Column(
+          children: [
+            GestureDetector(
+               onTap: () 
+                
+                async {
 
-               if (basicInfoForm.currentState!.validate()) {
-                OverlayScreen().show(context);
-                await Future.delayed(
-                  Duration(seconds: 4),
-                  () {
-                    },
-                );
-                OverlayScreen().pop();
-                       Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => FaceIdentity(),
-                ),
-              );
-              };
-            },
-          child: Container(
+                   if (basicInfoForm.currentState!.validate()) {
+                    OverlayScreen().show(context);
+                    await Future.delayed(
+                      Duration(seconds: 4),
+                      () {
+                        },
+                    );
+                    OverlayScreen().pop();
+                           Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FaceIdentity(),
+                    ),
+                  );
+                  };
+                },
+              child: Container(
       margin: const EdgeInsets.all(12.0),
-            decoration: BoxDecoration(
+                decoration: BoxDecoration(
        
-                color: AppColors.accent_color,
-                borderRadius: BorderRadius.all(Radius.circular(40))),
-            alignment: Alignment.center,
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Text(
-                    " Submit ",
-                    style: TextStyle(
-                        color: AppColors.primery_color,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600),
-                  ),
+                    color: AppColors.accent_color,
+                    borderRadius: BorderRadius.all(Radius.circular(40))),
+                alignment: Alignment.center,
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Text(
+                        " Submit ",
+                        style: TextStyle(
+                            color: AppColors.primery_color,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600),
+                      ),
+                ),
+              ),
             ),
+            Container(
+          child: AdWidget(
+            ad: AdmobHelper.getBannerAd()..load(),
+            key: UniqueKey(),
           ),
+          height: 50,
         ),
-      ),
+      
+          ],
+        ),
+  ),
        
         body: SafeArea(
       
@@ -296,7 +310,7 @@ Future<void> selectDate(BuildContext context) async {
     final DateTime pickedDate = (await showDatePicker(
         context: context,
         initialDate: DateTime(2000),
-        firstDate: DateTime(1980),
+        firstDate: DateTime(1800),
         lastDate: DateTime(2010)))!;
     if (pickedDate != null && pickedDate != currentDate)
       currentDate = pickedDate;

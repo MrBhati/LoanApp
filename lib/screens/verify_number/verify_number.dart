@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:loneapp/componets/AdmobHelper.dart';
 import 'package:loneapp/componets/custom_dilog.dart';
 import 'package:loneapp/res/colors_constant.dart';
 import 'package:loneapp/screens/Home/home.dart';
@@ -466,6 +468,13 @@ class _VerifyNumberState extends State<VerifyNumber> {
                     ),
                   ),
                 ),
+                  Container(
+          child: AdWidget(
+            ad: AdmobHelper.getBannerAd()..load(),
+            key: UniqueKey(),
+          ),
+          height: 50,
+        ),
               ],
             ),
           )),

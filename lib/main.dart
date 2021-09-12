@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:loneapp/componets/AdmobHelper.dart';
 import 'package:loneapp/screens/splash_screen/splash.dart';
 
 void main() {
+//    WidgetsFlutterBinding.ensureInitialized();
+//  AdmobHelper.initialize();
   runApp(MyApp());
 }
 
