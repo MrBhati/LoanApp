@@ -4,7 +4,8 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class AdmobHelper{
 
-  static String get bannerID => Platform.isAndroid ? 'ca-app-pub-2343987874305145/6763155918' : 'ca-app-pub-2343987874305145/6763155918';
+  static String get bannerID => Platform.isAndroid ? 'ca-app-pub-3940256099942544/6300978111' : 'ca-app-pub-3940256099942544/6300978111';
+
 
   static initialize(){
     if(MobileAds.instance == null){
@@ -30,4 +31,7 @@ static BannerAd getBannerAd(){
 
     return bAd;
   }
+
+    
+
 }

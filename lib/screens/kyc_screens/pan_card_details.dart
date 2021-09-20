@@ -17,6 +17,8 @@ class PanCard extends StatefulWidget {
 }
 
 class _PanCardState extends State<PanCard> {
+    InterstitialAd? _interstitialAd;
+  int num_of_attempt_load = 0;
   String? _genderRadioBtnVal;
   XFile? _imagePan;
   final ImagePicker _picker = ImagePicker();
@@ -208,7 +210,8 @@ class _PanCardState extends State<PanCard> {
           children: [
             GestureDetector(
                 onTap: () async {
-
+ createInterad();
+                   showInterad();   
                   if(panfoForm.currentState!.validate()){
 if(_imagePan != null){
   
@@ -350,6 +353,8 @@ if(_imagePan != null){
                         ),
                         GestureDetector(
                           onTap: () {
+                             createInterad();
+                   showInterad();   
                             _showPicker(context);
                           },
                           child: Container(
@@ -373,5 +378,49 @@ if(_imagePan != null){
             ),
           ),
         ));
+  }
+   //Adds load methods
+
+
+   // create interstitial ads
+  void createInterad(){
+    InterstitialAd.load(
+        adUnitId: 'ca-app-pub-3940256099942544/1033173712',
+        request: AdRequest(),
+        adLoadCallback:InterstitialAdLoadCallback(
+            onAdLoaded: (InterstitialAd ad){
+              _interstitialAd = ad;
+              num_of_attempt_load =0;
+            },
+            onAdFailedToLoad: (LoadAdError error){
+              num_of_attempt_load +1;
+              _interstitialAd = null;
+              if(num_of_attempt_load<=2){
+                createInterad();
+              }
+            }),
+    );
+  }
+// show interstitial ads to user
+  void showInterad(){
+     if(_interstitialAd == null){
+       return;
+     }
+     _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+       onAdShowedFullScreenContent: (InterstitialAd ad){
+         print("ad onAdshowedFullscreen");
+       },
+       onAdDismissedFullScreenContent: (InterstitialAd ad){
+         print("ad Disposed");
+         ad.dispose();
+       },
+       onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError aderror){
+         print('$ad OnAdFailed $aderror');
+         ad.dispose();
+         createInterad();
+       }
+     );
+     _interstitialAd!.show();
+     _interstitialAd = null;
   }
 }

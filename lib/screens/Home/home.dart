@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:loneapp/componets/AdmobHelper.dart';
+
 import 'package:loneapp/componets/custom_app_bar.dart';
 import 'package:loneapp/res/colors_constant.dart';
 import 'package:loneapp/screens/kyc_screens/basic_detaild.dart';
@@ -14,6 +15,11 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+
+  InterstitialAd? _interstitialAd;
+  int num_of_attempt_load = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,6 +107,8 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.fromLTRB(50, 10, 50, 5),
               child: GestureDetector(
                 onTap: () {
+                  createInterad();
+                   showInterad();   
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -108,6 +116,14 @@ class _HomeState extends State<Home> {
                     ),
                   );
                 },
+                  // onTap: (){
+                  //   createInterad();
+                   
+                  //    // call create Interstitial ads
+                  // },
+                  // onLongPress: (){
+                  // //  showInterad();     // call  show Interstitial ads
+                  // },
                 child: Container(
             margin: const EdgeInsets.all(0.0),
                   decoration: BoxDecoration(
@@ -246,4 +262,50 @@ class _HomeState extends State<Home> {
       )),
     );
   }
+
+  //Adds load methods
+
+
+   // create interstitial ads
+  void createInterad(){
+    InterstitialAd.load(
+        adUnitId: 'ca-app-pub-3940256099942544/1033173712',
+        request: AdRequest(),
+        adLoadCallback:InterstitialAdLoadCallback(
+            onAdLoaded: (InterstitialAd ad){
+              _interstitialAd = ad;
+              num_of_attempt_load =0;
+            },
+            onAdFailedToLoad: (LoadAdError error){
+              num_of_attempt_load +1;
+              _interstitialAd = null;
+              if(num_of_attempt_load<=2){
+                createInterad();
+              }
+            }),
+    );
+  }
+// show interstitial ads to user
+  void showInterad(){
+     if(_interstitialAd == null){
+       return;
+     }
+     _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+       onAdShowedFullScreenContent: (InterstitialAd ad){
+         print("ad onAdshowedFullscreen");
+       },
+       onAdDismissedFullScreenContent: (InterstitialAd ad){
+         print("ad Disposed");
+         ad.dispose();
+       },
+       onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError aderror){
+         print('$ad OnAdFailed $aderror');
+         ad.dispose();
+         createInterad();
+       }
+     );
+     _interstitialAd!.show();
+     _interstitialAd = null;
+  }
+
 }
