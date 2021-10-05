@@ -37,6 +37,7 @@ dependencies:
   overlay_screen: ^1.2.0+1-nullsafety.0
   flutter_form_builder: ^6.0.1
   google_mobile_ads: ^0.13.0
+  dio: ^4.0.0
 
 
 dev_dependencies:

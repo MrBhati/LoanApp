@@ -1,14 +1,17 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loneapp/componets/AdmobHelper.dart';
+import 'package:loneapp/model/Plans.dart';
 import 'package:loneapp/res/colors_constant.dart';
 import 'package:loneapp/res/string_constant.dart';
 import 'package:loneapp/screens/kyc_screens/pan_card_details.dart';
 import 'package:loneapp/screens/done/done.dart';
 import 'package:loneapp/screens/verify_number/verify_number.dart';
+import 'package:overlay_screen/overlay_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -34,6 +37,7 @@ class _CalEMIState extends State<CalEMI> {
   List<String> days = ['120', '180', '240', '300', '360'];
   String disbursal = '20,000';
   String payLink = StringConstant.pay292;
+  List<Plans> plans = [];
 
 
 void navigationPage() {
@@ -47,7 +51,7 @@ void navigationPage() {
  initiateTransaction() async {
     String upi_url =
         payLink;
-    await launch(upi_url).then((value) {
+    await launch(payLink).then((value) {
       print(value);
       var _duration = new Duration(seconds: 2);
     return new Timer(_duration, navigationPage);
@@ -62,7 +66,8 @@ void navigationPage() {
     setState(() {
       if (selectedAmountButton == "20,000") {
         setState(() {
-          payLink = StringConstant.pay292;
+          payLink = plans[1].url!;
+          //StringConstant.pay292;
         });
         switch (selectedDayButtion) {
           case '120':
@@ -108,7 +113,8 @@ void navigationPage() {
         }
       } else if (selectedAmountButton == "30,000") {
         setState(() {
-          payLink = StringConstant.pay392;
+          payLink = payLink = plans[2].url!;
+          //StringConstant.pay392;
         });
         switch (selectedDayButtion) {
           case '120':
@@ -154,7 +160,8 @@ void navigationPage() {
         }
       } else if (selectedAmountButton == "50,000") {
         setState(() {
-          payLink = StringConstant.pay492;
+          payLink = payLink = plans[3].url!;
+          //StringConstant.pay492;
         });
         switch (selectedDayButtion) {
           case '120':
@@ -200,7 +207,8 @@ void navigationPage() {
         }
       } else if (selectedAmountButton == "80,000") {
         setState(() {
-          payLink = StringConstant.pay592;
+          payLink = payLink = plans[4].url!;
+          //StringConstant.pay592;
         });
         switch (selectedDayButtion) {
           case '120':
@@ -246,7 +254,8 @@ void navigationPage() {
         }
       } else if (selectedAmountButton == "1,00,000") {
         setState(() {
-          payLink = StringConstant.pay692;
+          payLink = payLink = plans[5].url!;
+          //StringConstant.pay692;
         });
         switch (selectedDayButtion) {
           case '120':
@@ -294,8 +303,34 @@ void navigationPage() {
     });
   }
 
+
+@override
+  void initState() {
+    apiCall();
+    
+    // TODO: implement initState
+    super.initState();
+  }
+  void apiCall() async {
+  var dio = Dio();
+  final response = await dio.get('https://money-india.herokuapp.com/plan-listing');
+ 
+
+       var dataResponse = response.data as List;
+       plans = dataResponse.map((e) => Plans.fromJson(e)).toList();
+
+       print("Number of Songs" + plans.length.toString());
+
+  print(response.data);
+  setState(() {
+    
+  });
+  
+                
+}
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
      
   appBar: AppBar(
