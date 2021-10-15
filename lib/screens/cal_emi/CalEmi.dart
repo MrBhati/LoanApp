@@ -36,7 +36,7 @@ class _CalEMIState extends State<CalEMI> {
   List<String> amounts = ['20,000', '30,000', '50,000', '80,000', '1,00,000'];
   List<String> days = ['120', '180', '240', '300', '360'];
   String disbursal = '20,000';
-  String payLink = StringConstant.pay292;
+  String? payLink;
   List<Plans> plans = [];
 
 
@@ -50,8 +50,8 @@ void navigationPage() {
 
  initiateTransaction() async {
     String upi_url =
-        payLink;
-    await launch(payLink).then((value) {
+        payLink!;
+    await launch(payLink!).then((value) {
       print(value);
       var _duration = new Duration(seconds: 2);
     return new Timer(_duration, navigationPage);
