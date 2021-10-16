@@ -113,7 +113,7 @@ void navigationPage() {
         }
       } else if (selectedAmountButton == "30,000") {
         setState(() {
-          payLink = payLink = plans[2].url!;
+          payLink = payLink = plans[0].url!;
           //StringConstant.pay392;
         });
         switch (selectedDayButtion) {
@@ -160,7 +160,7 @@ void navigationPage() {
         }
       } else if (selectedAmountButton == "50,000") {
         setState(() {
-          payLink = payLink = plans[3].url!;
+          payLink = payLink = plans[2].url!;
           //StringConstant.pay492;
         });
         switch (selectedDayButtion) {
@@ -207,7 +207,7 @@ void navigationPage() {
         }
       } else if (selectedAmountButton == "80,000") {
         setState(() {
-          payLink = payLink = plans[4].url!;
+          payLink = payLink = plans[3].url!;
           //StringConstant.pay592;
         });
         switch (selectedDayButtion) {
@@ -254,7 +254,7 @@ void navigationPage() {
         }
       } else if (selectedAmountButton == "1,00,000") {
         setState(() {
-          payLink = payLink = plans[5].url!;
+          payLink = payLink = plans[4].url!;
           //StringConstant.pay692;
         });
         switch (selectedDayButtion) {
@@ -320,7 +320,7 @@ void navigationPage() {
        plans = dataResponse.map((e) => Plans.fromJson(e)).toList();
 
        print("Number of Songs" + plans.length.toString());
-
+updateAmount();
   print(response.data);
   setState(() {
     
