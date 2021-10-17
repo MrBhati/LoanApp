@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mrbhati.fastloan"
+    package="com.mrbhati.fastloanapp"
     >
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
@@ -10,7 +10,7 @@
           Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713
        <meta-data
            android:name="com.google.android.gms.ads.APPLICATION_ID"
-           android:value="ca-app-pub-2343987874305145~3353366276"/>   // replace App id with your app id 
+           android:value="ca-app-pub-8605989211211430~1787573518"/>   // replace App id with your app id 
 
         <activity
             android:name=".MainActivity"
